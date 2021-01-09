@@ -71,6 +71,7 @@ class Login extends \Restserver\Libraries\REST_Controller
         }
     }
 
+    
     function wishlist_item_delete(){
         if($this->input->post('wli_id')){
             $this->wli_id= $this->input->post('wli_id');
@@ -81,6 +82,20 @@ class Login extends \Restserver\Libraries\REST_Controller
         }else{
             $data['message'] = 'The wishlist item id has not been sent.';
             $data['deleted_item'] = false;
+            $this->set_response($data, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    function wishlist_items_get(){
+        if($this->input->post('user_id')){
+            $param['user_id']= $this->input->post('user_id');
+           $data['data'] =  $this->wishlist_items_model->get_wishlist($param);
+            $data['message'] = 'The list is available';
+            $data['retrieved'] = true;
+            $this->set_response($data, \Restserver\Libraries\REST_Controller::HTTP_CREATED);
+        }else{
+            $data['message'] = 'The user id has not been given.';
+            $data['retrieved'] = false;
             $this->set_response($data, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
