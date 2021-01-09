@@ -21,7 +21,16 @@ class User_model extends CI_Model
         if ($result->num_rows() === 0) {
             return false;    
         }else{
-            return false;
+            return true;
+        }
+    }
+
+    function has_registered_id($id){
+        $result = $this->db->get_where('users', array('user_id' => $id));	   
+        if ($result->num_rows() === 0) {
+            return false;    
+        }else{
+            return true;
         }
     }
 

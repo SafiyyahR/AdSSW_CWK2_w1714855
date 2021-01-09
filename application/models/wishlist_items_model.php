@@ -12,21 +12,24 @@ class Wishlist_items_model extends CI_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('user_model');
     }
 
 
     function get_wishlist($data)
     {
         $this->wli_user_id = $data['user_id'];
-        $query = $this->db->select()
-            ->where('wli_user_id', $this->wli_user_id)
-            ->get('wishlist_items');
-        return $query;
+        if ($this->user_model->has_registered_id($data['user_id'])) {
+            $query = $this->db->select()
+                ->where('wli_user_id', $this->wli_user_id)
+                ->get('wishlist_items');
+            return $query;
+        }
     }
 
     function insert_item($data)
     {
-        
+
         $this->db->insert('wishlist_items', $data);
     }
 
