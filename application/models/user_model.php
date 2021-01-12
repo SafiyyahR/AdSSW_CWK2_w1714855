@@ -18,12 +18,12 @@ class User_model extends CI_Model
         $this->db->query('use w1714855_0');
     }
 
-    function has_registered($email)
+    function has_registered($data)
     {
 
         $this->db->select('*');
         $this->db->from('users');
-        $this->db->where('user_email', $email);
+        $this->db->where($data['field_name'], $data['value']);
         $query = $this->db->get();
         if ($query->num_rows() === 0) {
             return false;
@@ -32,16 +32,17 @@ class User_model extends CI_Model
         }
     }
 
-    function has_registered_id($id)
+    function get_user($data)
     {
-        $result = $this->db->get_where('users', array('user_id' => $id));
-        if ($result->num_rows() === 0) {
-            return false;
-        } else {
-            return true;
+        if ($this->has_registered($data)) {
+            $query = $this->db->select('*')
+                ->where('user_email', $data['user_email'])
+                ->get('users');
+            return $query->row_array();
+        }else{
+            return null;
         }
     }
-
     function insert_record($data)        // function insert_record($data)
     {
         $this->user_email = $data['user_email'];
@@ -51,7 +52,9 @@ class User_model extends CI_Model
         $this->wishlist_name = $data['wishlist_name'];
         $this->wishlist_description = $data['wishlist_description'];
         $this->wishlist_occasion = $data['wishlist_occasion'];
-        $user_registered = $this->has_registered($data['user_email']);
+        $details['field_name'] = 'user_email';
+        $details['value'] = $data['user_email'];
+        $user_registered = $this->has_registered($details);
         if ($user_registered === true) {
             return 'Cannot insert record as email is already in use.';
         } else {
@@ -63,13 +66,15 @@ class User_model extends CI_Model
     function validate_credentials($data)
     {
         $this->user_email = $data['user_email'];
-        $user_registered = $this->has_registered($data['user_email']);
+        $details['field_name'] = 'user_email';
+        $details['value'] = $data['user_email'];
+        $user_registered = $this->has_registered($details);
         if ($user_registered === true) {
             $query = $this->db->select('*')
                 ->where('user_email', $data['user_email'])
                 ->get('users');
             $result = $query->row_array();
-            if (password_verify($data['user_password'],$result['user_password']  )) {
+            if (password_verify($data['user_password'], $result['user_password'])) {
                 return $result;
             } else {
                 return null;
