@@ -26,7 +26,8 @@ class Wishlist_items_model extends CI_Model
         if ($this->user_model->has_registered($details)) {
             $query = $this->db->select()
                 ->where('wli_user_id', $this->wli_user_id)
-                ->get('wishlist_items');
+                ->get('wishlist_items')
+                ->orderby("wli_priority ASC, wli_title ASC");
             $data['results'] = $query;
             $data['registered']  = true;
             return $data;

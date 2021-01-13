@@ -116,9 +116,11 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
                 $data['data'] = $result;
                 $data['message'] = 'The item is available';
                 $data['retrieved'] = true;
+                $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
             } else {
                 $data['message'] = 'The item is not available';
                 $data['retrieved'] = false;
+                $this->set_response($data, \Restserver\Libraries\REST_Controller::HTTP_OK);
             }
         }else{
             $data['message'] = 'The item id has not been given.';
@@ -137,7 +139,7 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
                 $data['data'] = $result['results'];
                 $data['message'] = 'The list is available';
                 $data['retrieved'] = true;
-                $this->set_response($data, \Restserver\Libraries\REST_Controller::HTTP_OK);
+                $this->set_response($result['results'], \Restserver\Libraries\REST_Controller::HTTP_OK);
             } else {
                 $data['message'] = 'No user is registered with that id.';
                 $data['retrieved'] = false;

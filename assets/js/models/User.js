@@ -1,6 +1,6 @@
 var app = app || {};
 
-app.User = Backbone.Model.extend({
+app.models.User = Backbone.Model.extend({
     defaults:{
     $user_id  = 0,
     $user_fname = "",

@@ -17,4 +17,4 @@ app.collections.WishListItemCollection = Backbone.Collection.extend({
     comparator:'wli_priority',
     url: app.base_url+'api/wishlist/items/'+app.userId,
   });
-  app.wishListItems = new app.WishListItemCollection();
+  app.wishListItems = new app.collections.WishListItemCollection();
