@@ -20,27 +20,33 @@ class Wishlist_items_model extends CI_Model
 
     function get_wishlist($data)
     {
-        $this->wli_user_id = $data['user_id'];
+        $this->wli_user_id = $data;
         $details['field_name'] = 'user_id';
-        $details['value'] = $data['user_id'];
+        $details['value'] = $data;
         if ($this->user_model->has_registered($details)) {
-            $query = $this->db->select()
-                ->where('wli_user_id', $this->wli_user_id)
-                ->get('wishlist_items')
-                ->orderby("wli_priority ASC, wli_title ASC");
-            $data['results'] = $query;
-            $data['registered']  = true;
-            return $data;
+            $this->db->select('*');
+            $this->db->from('wishlist_items');
+            $this->db->where('wli_user_id', $data);
+            $this->db->order_by('wli_priority ASC, wli_title ASC');
+            $query = $this->db->get();
+            $results = [];
+            $i = 0;
+            foreach ($query->result() as $row) {
+                $results[$i] = $row;
+                $i++;
+            }
+            return $results;
         } else {
-            $data['registered'] = false;
+            return null;
         }
     }
 
     function get_item($id)
     {
-        $query = $this->db->select('*')
-            ->where('wli_id', $id)
-            ->get('wishlist_items');
+        $this->db->select('*');
+        $this->db->from('wishlist_items');
+        $this->db->where('wli_id', $id);
+        $query = $this->db->get();
         if ($query->num_rows() > 0) {
             return $query->row_array();;
         } else {
@@ -55,13 +61,14 @@ class Wishlist_items_model extends CI_Model
 
     function delete_item($data)
     {
-        $this->db->where('wli_id', $data['wli_id']);
+        $this->db->where('wli_id', $data);
         $this->db->delete('wishlist_items');
     }
 
     function update_item($data)
     {
-        $this->db->where('wli_id', $data['wli_id']);
-        $this->db->update('wishlist_items', $data);
+        return $data;
+        // $this->db->where('wli_id', $data['wli_id']);
+        // return $this->db->update('wishlist_items', $data);
     }
 }

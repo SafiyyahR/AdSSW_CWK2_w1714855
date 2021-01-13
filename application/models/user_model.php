@@ -36,10 +36,10 @@ class User_model extends CI_Model
     {
         if ($this->has_registered($data)) {
             $query = $this->db->select('*')
-                ->where('user_email', $data['user_email'])
+                ->where($data['field_name'], $data['value'])
                 ->get('users');
             return $query->row_array();
-        }else{
+        } else {
             return null;
         }
     }

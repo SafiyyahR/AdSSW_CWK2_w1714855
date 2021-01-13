@@ -24,8 +24,12 @@ class User extends \Restserver\Libraries\REST_Controller
             $details['field_name'] = 'user_id';
             $details['value'] = $id;
             $result = $this->user_model->get_user($details);
-            $result['user_password'] = '';
-            $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
+            if ($result) {
+                $result['user_password'] = '';
+                $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
+            } else {
+                $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
+            }
         } else {
             $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
@@ -42,7 +46,7 @@ class User extends \Restserver\Libraries\REST_Controller
             $item['data'] = $valid_login;
             $this->set_response($valid_login, \Restserver\Libraries\REST_Controller::HTTP_OK);
         } else {
-            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
         }
     }
 

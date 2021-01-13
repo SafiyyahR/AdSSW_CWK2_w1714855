@@ -27,7 +27,7 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
         $this->methods['item_post']['limit'] = 500;
     }
 
-    function item_post()
+    function items_post()
     {
         $data['wli_user_id'] = $this->input->post('wli_user_id');
 
@@ -38,15 +38,15 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
         $data['wli_price'] = $this->input->post('wli_price');
 
         $data['wli_priority'] = $this->input->post('wli_priority');
-        $this->wishlist_items_model->insert_record($data);
+        $this->wishlist_items_model->insert_item($data);
         $this->set_response('ok', \Restserver\Libraries\REST_Controller::HTTP_OK);
     }
 
 
-    function item_delete()
+    function item_delete($item_id)
     {
-        if ($this->input->post('wli_id')) {
-            $this->wishlist_items_model->delete_item($this->input->post('wli_id'));
+        if ($item_id) {
+            $this->wishlist_items_model->delete_item($item_id);
             $this->set_response('ok', \Restserver\Libraries\REST_Controller::HTTP_OK);
         } else {
             $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
@@ -70,10 +70,9 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
     function items_get($user_id)
     {
         if ($user_id) {
-            $param['user_id'] = intval($user_id);
-            $result = $this->wishlist_items_model->get_wishlist($param);
-            if ($result['registered']) {
-                $this->set_response($result['results'], \Restserver\Libraries\REST_Controller::HTTP_OK);
+            $result = $this->wishlist_items_model->get_wishlist(intval($user_id));
+            if ($result) {
+                $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
             } else {
                 $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
             }
@@ -82,8 +81,9 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
         }
     }
 
-    function item_put()
+    function item_post()
     {
+        $data['wli_id'] = $this->input->post('wli_id');
         $data['wli_user_id'] = $this->input->post('wli_user_id');
 
         $data['wli_title'] = $this->input->post('wli_title');
