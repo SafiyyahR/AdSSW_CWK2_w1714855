@@ -5,7 +5,7 @@ App.Models.User = Backbone.Model.extend({
         user_id: 0,
         user_fname: "",
         user_lname: "",
-        user_email: "",
+        username: "",
         user_password: "",
         wishlist_name: "",
         wishlist_description: "",

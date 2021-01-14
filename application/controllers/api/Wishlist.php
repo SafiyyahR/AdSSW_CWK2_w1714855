@@ -49,7 +49,7 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
             $this->wishlist_items_model->delete_item($item_id);
             $this->set_response('ok', \Restserver\Libraries\REST_Controller::HTTP_OK);
         } else {
-            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
+            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -60,7 +60,7 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
             if ($result) {
                 $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
             } else {
-                $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
+                $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
             }
         } else {
             $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
@@ -74,10 +74,10 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
             if ($result) {
                 $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
             } else {
-                $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
+                $this->set_response($user_id, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
             }
         } else {
-            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            $this->set_response($user_id, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

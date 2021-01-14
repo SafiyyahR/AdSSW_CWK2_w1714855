@@ -22,18 +22,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src=<?php echo base_url() . "assets/js/models/WishListItem.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/collections/WishListCollection.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/views/LoginView.js" ?>></script>
-
+    <script src=<?php echo base_url() . "assets/js/views/RegisterView.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/views/WishlistView.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/views/WishlistItemView.js" ?>></script>
+    <link href="<?php echo base_url(); ?>assets/css/styles.css" rel="stylesheet" type="text/css">
 
 </head>
 
 <body>
     <nav id="custom-navbar" class="navbar navbar-expand-lg navbar-light bg-custom sticky-top">
     </nav>
-    <div class="container" id="main-container"></div>
+    <div class="container mt-5" id="main-container"></div>
 
-    <script type="text/template" id="navbar-template"><a class="navbar-brand" href="<?php echo base_url() ?> ">
-      <h4>WishList</h4>
-    </a>
+    <script type="text/template" id="navbar-template">
+        <h4>WishList</h4>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -54,7 +56,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <li class="nav-item active">
             <a class="nav-link" href="<?php echo base_url() . 'register' ?>">Register</a>
           </li>
-          <% } } else{ if(name ==="View"){ %>
+          <% }else {%>
+            <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url() ?>">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url() . 'register' ?>">Register</a>
+          </li>
+          <%} } else if(name ==="View" & loggedIn){ %>
           <li class="nav-item active">
             <a class="nav-link" href="<?php echo base_url() . "wishlist/" ?><%=userId%>">View WishList</a>
           </li>
@@ -64,7 +73,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <li class="nav-item ">
             <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
           </li>
-          <% } else if( name=== 'Add') { %>
+          <% } else if( name=== 'Add'  & loggedIn) { %>
             <li class="nav-item">
             <a class="nav-link" href="<?php echo base_url() . "wishlist/" ?><%=userId%>">View WishList</a>
           </li>
@@ -74,7 +83,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
           <li class="nav-item ">
             <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
           </li>
-         <% }}%>
+         <% }%>
       </ul>
     </div>
     </script>
@@ -83,8 +92,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="col-12">
             <form>
                 <div class="form-group">
-                <label for="user_email"><b>Email</b></label>
-                <input class="form-control" type="text" placeholder="hello@goo.com" name="user_email" id="login_user_email" value="<%=user_email%>">
+                <label for="username"><b>Username</b></label>
+                <input class="form-control" type="text" placeholder="hello@goo.com" name="username" id="login_username" value="<%=username%>">
                 </div>
                 <div class="form-group">
                 <label for="user_password"><b>Password</b></label>
@@ -96,36 +105,47 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div></div>
     </script>
     <script type="text/template" id="register-template">
-        <form>
+        <div class="row align-items-center h-100">
+            <div class="col-12">
+            <form>
+                <div class="form-group">
                 <label for="user_fname"><b>First Name</b></label>
-                <input type="text" placeholder="John" name="user_fname" id="register_user_fname">
-
+                <input type="text"  class="form-control" placeholder="John" name="user_fname" id="register_user_fname">
+                </div>
+                <div class="form-group">
                 <label for="user_lname"><b>Last Name</b></label>
-                <input type="text" placeholder="Paul" name="user_lname" id="register_user_lname">
-
+                <input type="text"  class="form-control" placeholder="Paul" name="user_lname" id="register_user_lname">
+                </div>
+                <div class="form-group">
                 <label for="wishlist_name"><b>Wishlist Name</b></label>
-                <input type="text" placeholder="Christmas List 2021" name="wishlist_name" id="register_wishlist_name">
-
+                <input type="text"  class="form-control" placeholder="Christmas List 2021" name="wishlist_name" id="register_wishlist_name">
+                </div>
+                <div class="form-group">
                 <label for="wishlist_description"><b>Wishlist Description</b></label>
-                <input type="text" placeholder="Christmas List 2021 for the Children" name="wishlist_description" id="register_wishlist_description">
-
+                <input type="text"  class="form-control" placeholder="Christmas List 2021 for the Children" name="wishlist_description" id="register_wishlist_description">
+                </div>
+                <div class="form-group">
                 <label for="wishlist_occasion"><b>Wishlist Occasion</b></label>
-                <input type="text" placeholder="Christmas List 2021 for the Children" name="wishlist_occasion" id="register_wishlist_occasion">
-
-                <label for="user_email"><b>Email</b></label>
-                <input type="text" placeholder="hello@goo.com" name="user_email" id="register_user_email">
-
+                <input type="text"  class="form-control" placeholder="Christmas List 2021 for the Children" name="wishlist_occasion" id="register_wishlist_occasion">
+                </div>
+                <div class="form-group">
+                <label for="username"><b>Username</b></label>
+                <input type="text"  class="form-control" placeholder="hello@goo.com" name="username" id="register_username">
+                </div>
+                <div class="form-group">
                 <label for="user_password"><b>Password</b></label>
-                <input type="password"  name="user_password" id="register_user_password">
-                    
-                <button type="submit">Register</button>
-                <button type="reset">Reset</button>
-            </form>
+                <input type="password" class="form-control" name="user_password" id="register_user_password">
+                </div>
+                <button type="submit" class="btn btn-success" id="btn-register">Register</button>
+                <button type="reset" class="btn btn-secondary" >Reset</button>
+                </form>
+            </div>
+        </div>
     </script>
     <script type="text/template" id="view-wishlist-template">
-        <% if(wishList.length>0) { %>
+        <% if(hasItems) { %>
                 <div class="row w-100">
-                    <h1 class="text-center w-100">WishList</h1>
+                    <h1 class="text-center w-100">Wishlist</h1>
                 </div>
                 <div class="row w-100 border-bottom border-dark ">
                     <div class="col-6 p-0 col-md-3">
@@ -146,47 +166,52 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="col-12">
                         <h3 class="text-center">The wishList is empty</h3>
                         <div class="row mt-5 pt-5">
+                            <a href="#">
                             <button class="btn text-center m-auto btn-success">
                                 Add a new Item
-                            </button>
+                            </button></a>
                         </div>
                     </div>
                 </div>
             <% } %>
+            <% for (let index = 1; index <= length; index++) {%>
+                <div class="row border-bottom border-primary w-100 py-3" id="wishlist-item-<%=index%>"></div>
+        <%}%>
+            
+
     </script>
     <script type="text/template" id="wishlist-item-template">
-        <div class="row border-bottom border-primary w-100">
-                <div class="col-6 col-md-3 p-0">
-                    <div class="row">
-                        <h5 class="heading">{{wli_title}}</h5>
-                    </div>
+
+        <div class="col-6 col-md-3 p-0">
+                        <h5 class="heading"><%=model.wli_title%></h5>
                 </div>
                 <div class="col-6 col-md-3 p-0">
-                    <a href="{{wli_url}}" target="_blank">
-                        <h5 class=" text-right">{{wli_url}}</h5>
+                    <a href="<%=model.wli_url%>" target="_blank">
+                        <h5>URL</h5>
                     </a>
                 </div>
                 <div class="col-6 col-md-2 p-0">
-                    <h5 class=" text-right">&#163;{{wli_price}}</h5>
+                    <h5>&#163;<%=model.wli_price%></h5>
                 </div>
                 <div class="col-6 col-md-2 p-0">
-                    <h5 class=" text-right">{{wli_priority}}</h5>
+                    <h5><%=model.wli_priority%></h5>
                 </div>
+                <% if(canEdit) { %>
                 <div class="col-6 col-md-1 p-0">
-                    <button>
-                        <i class="medium material-icons">edit</i>
+                    <button class="btn btn-secondary">
+                        <i class="small material-icons">edit</i>
                     </button>
                 </div>
                 <div class="col-6 col-md-1 p-0">
-                    <button>
-                        <i class="medium material-icons">delete</i>
+                    <button class="btn btn-danger">
+                        <i class="small material-icons">delete</i>
                     </button>
                 </div>
-            </div>
+                <%}%>
     </script>
     <script type="text/template" id="add-wishlist-item-template">
         <form>
-            <input type="hidden" name="wli_user_id" value={{wli_user_id}}>
+            <input type="hidden" name="wli_user_id" value=<%=wli_user_id%>>
             <label for="wli_title"><b>Title</b></label>
             <input type="text" placeholder="Perfume" name="wli_title" id="add_wli_title">
             <label for="wli_url"><b>URL</b></label>
@@ -206,13 +231,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </script>
     <script type="text/template" id="edit-wishlist-item-template">
         <form>
-            <input type="hidden" name="wli_user_id" value={{wli_user_id}}>
+            <input type="hidden" name="wli_user_id" value=<%=wli_user_id%>>
             <label for="wli_title"><b>Title</b></label>
-            <input type="text" value={{wli_title}} name="wli_title" id="add_wli_title">
+            <input type="text" value=<%=wli_title%> name="wli_title" id="add_wli_title">
             <label for="wli_url"><b>URL</b></label>
-            <input type="text" value={{wli_url}} name="wli_url" id="add_wli_url">
+            <input type="text" value=<%=wli_url%> name="wli_url" id="add_wli_url">
             <label for="wli_price"><b>Price</b></label>
-            <input type="number" step="0.01" value={{wli_price}} name="wli_price" id="add_wli_price">  
+            <input type="number" step="0.01" value=<%=wli_price%> name="wli_price" id="add_wli_price">  
             <label for="wli_priority"><b>Priority</b></label>
             <input type="radio" name="wli_priority" value="'A must have">
             <label for="wli_priority_1">A must have</label><br>

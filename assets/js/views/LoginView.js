@@ -16,11 +16,10 @@ App.Views.LoginView = Backbone.View.extend({
 
     validateLoginForm: function () {
         var login_details = {
-            'user_email': $("input#login_user_email").val(),
+            'username': $("input#login_username").val(),
             'user_password': $("input#login_user_password").val()
         };
-        console.log(login_details);
-        if (!login_details.user_email || !login_details.user_password) {
+        if (!login_details.username || !login_details.user_password) {
             return { valid: false };
         }
         return { valid: true, details: login_details };
@@ -29,25 +28,30 @@ App.Views.LoginView = Backbone.View.extend({
         e.preventDefault();
         e.stopPropagation();
         var validatedLogin = this.validateLoginForm();
-        console.log(validatedLogin);
         if (validatedLogin.valid) {
             this.model.set(validatedLogin['details']);
-            console.log(this.model.urlRoot);
             this.model.save(this.model.attributes, {
-                wait: true,
                 url: this.model.urlRoot + "/login",
+                type: "POST",
                 success: function (model, reponse) {
                     console.log("Success");
-                    this.model.fetch();
-                    // localStorage.setItem('current_user', JSON.stringify(model));
-                    // console.log(localStorage.getItem('current_user'));
+                    var url = model.urlRoot + "/" + model.get('username');
+                    model.fetch({ url: url });
+                    localStorage.setItem('current_user_id', model.get('user_id'));
+                    localStorage.setItem('current_user_fname', model.get('user_fname'));
+                    localStorage.setItem('current_user_lname', model.get('user_lname'));
+                    localStorage.setItem('current_username', model.get('username'));
+                    localStorage.setItem('current_wishlist_name', model.get('wishlist_name'));
+                    localStorage.setItem('current_wishlist_description', model.get('wishlist_description'));
+                    localStorage.setItem('current_wishlist_occasion', model.get('wishlist_occasion'));
+                    App.Router.navigate("#wishlist/"+model.get('user_id'), {trigger: true, replace: true});
                 },
                 error: function (model, error) {
-                    alert('Incorrect Email or Password.');
+                    alert('Incorrect Username or Password.');
                 }
             })
         } else {
-            console.log('login fields empty')
+            alert('Login Fields are empty.');
         }
     }
 });

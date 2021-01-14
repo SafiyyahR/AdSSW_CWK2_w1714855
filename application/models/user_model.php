@@ -5,7 +5,7 @@ class User_model extends CI_Model
     public $user_id;
     public $user_fname;
     public $user_lname;
-    public $user_email;
+    public $username;
     public $user_password;
     public $wishlist_name;
     public $wishlist_description;
@@ -45,18 +45,18 @@ class User_model extends CI_Model
     }
     function insert_record($data)        // function insert_record($data)
     {
-        $this->user_email = $data['user_email'];
+        $this->username = $data['username'];
         $this->user_fname = $data['user_fname'];
         $this->user_lname = $data['user_lname'];
         $this->user_password = password_hash($data['user_password'], PASSWORD_DEFAULT);
         $this->wishlist_name = $data['wishlist_name'];
         $this->wishlist_description = $data['wishlist_description'];
         $this->wishlist_occasion = $data['wishlist_occasion'];
-        $details['field_name'] = 'user_email';
-        $details['value'] = $data['user_email'];
+        $details['field_name'] = 'username';
+        $details['value'] = $data['username'];
         $user_registered = $this->has_registered($details);
         if ($user_registered === true) {
-            return 'Cannot insert record as email is already in use.';
+            return 'Cannot insert record as username is already in use.';
         } else {
             $this->db->insert('users', $this);
             return 'Registered New User';
@@ -65,13 +65,13 @@ class User_model extends CI_Model
 
     function validate_credentials($data)
     {
-        $this->user_email = $data['user_email'];
-        $details['field_name'] = 'user_email';
-        $details['value'] = $data['user_email'];
+        $this->username = $data['username'];
+        $details['field_name'] = 'username';
+        $details['value'] = $data['username'];
         $user_registered = $this->has_registered($details);
         if ($user_registered === true) {
             $query = $this->db->select('*')
-                ->where('user_email', $data['user_email'])
+                ->where('username', $data['username'])
                 ->get('users');
             $result = $query->row_array();
             if (password_verify($data['user_password'], $result['user_password'])) {
@@ -80,7 +80,7 @@ class User_model extends CI_Model
                 return null;
             }
         } else {
-            return 'The email is not registered';
+            return 'The username is not registered';
         }
     }
 }

@@ -7,19 +7,20 @@ var App = {
 }
 
 function hasLoggedIn() {
-  current_user = JSON.parse(localStorage.getItem("current_user"));
-  if (current_user == null) {
+  current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
+  console.log(current_user_id)
+  if (current_user_id == null) {
     return false;
   } else {
     return true;
   }
 }
 function getCurrentUserId() {
-  current_user = JSON.parse(localStorage.getItem("current_user"));
-  if (current_user == null) {
+  current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
+  if (current_user_id == null) {
     return false;
   } else {
-    return current_user.get('user_id');
+    return current_user;
   }
 
 }
@@ -27,7 +28,7 @@ $(document).ready(function () {
   // _.templateSettings = { interpolate: /{{(.+?)}}/g };
   App.Router = new App.Router.CurrentRouter();
   $(function () {
-    Backbone.history.start();
+    Backbone.history.start({ root: "http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php" });
   });
   // Add some code here
 });
@@ -70,7 +71,7 @@ $(document).ready(function () {
 //       user_id: 0,
 //       user_fname: "",
 //       user_lname: "",
-//       user_email: "",
+//       username: "",
 //       user_password: "",
 //       wishlist_name: "",
 //       wishlist_description: "",

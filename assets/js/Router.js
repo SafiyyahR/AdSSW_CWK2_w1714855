@@ -9,55 +9,67 @@ App.Router.CurrentRouter = Backbone.Router.extend({
     },
 
     login: function () {
-        current_user = JSON.parse(localStorage.getItem("current_user"));
-        if (current_user == null) {
-            App.user = new App.Models.User(current_user);
+        var current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
+        if (current_user_id == null) {
+            App.user = new App.Models.User();
             if (!App.loginView) {
                 App.loginView = new App.Views.LoginView({ model: App.user, el: "#main-container" });
                 App.loginView.render();
             }
         } else {
-            this.viewList(getCurrentUserId());
+            alert('Logged in');
+            //this.viewList(current_user_id);
         }
     },
 
     register: function () {
-        userJson = JSON.parse(localStorage.getItem("user"));
-        if (userJson == null) {
-            app.user = new app.models.User(userJson);
-
-            if (!app.loginView) {
-                app.loginView = new app.views.LoginFormView({ model: app.user });
-                app.loginView.render();
+        var current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
+        if (current_user_id == null) {
+            App.user = new App.Models.User();
+            if (!App.registerView) {
+                App.registerView = new App.Views.RegisterView({ model: App.user, el: "#main-container" });
+                App.registerView.render();
             }
         } else {
-            this.viewList();
+            alert('Logged in');
         }
     },
 
     viewList: function (id) {
-        userJson = JSON.parse(localStorage.getItem("user"));
-        if (userJson != null) {
-            app.user = new app.models.User(userJson);
-            app.list = new app.collections.ItemCollection();
-            app.listView = new app.views.ListView({ collection: app.list });
-            var url = app.listView.collection.url + app.user.get("id");
-            app.list.fetch({
-                "url": url,
-                wait: true,
-                success: function (collection, response) {
-                    app.listView.render();
-                },
-                error: function (model, xhr, options) {
-                    if (xhr.status == 404) {
-                        app.listView.render();
-                        $("#item_status").css('display', 'block');
-                    }
-                }
-            });
-
+        var current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
+        if (id.split('#')[1] == null) {
+            alert('User Id is not given.');
+            App.appRouter.navigate("", { trigger: true, replace: true });
         } else {
-            app.appRouter.navigate("#login", { trigger: true, replace: true });
+            if (current_user_id == id.split('#')[1]) {
+                App.wishlist = new App.Collections.WishListItemCollection();
+                App.wishlistView = new App.Views.WishlistView({ wishlist: App.wishlist, el: "#main-container", canEdit: "true", id: id.split('#')[1] });
+                var url = App.wishlistView.wishlist.url + current_user_id;
+                App.wishlist.fetch({
+                    'url': url,
+                    wait: true,
+                    success: function (collection, response) {
+                        app.wishlistView.render();
+                    },
+                    error: function (model, error) {
+                        alert('User has been deleted.');
+                    }
+                })
+            } else {
+                App.wishlist = new App.Collections.WishListItemCollection();
+                App.wishlistView = new App.Views.WishlistView({ wishlist: App.wishlist, el: "#main-container", canEdit: "false", id: id.split('#')[1] });
+                var url = 'http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/api/wishlist/items/' + id.split('#')[1];
+                App.wishlist.fetch({
+                    'url': url,
+                    wait: true,
+                    success: function (collection, response) {
+                        App.wishlistView.render();
+                    },
+                    error: function (model, error) {
+                        alert('Incorrect User Id');
+                    }
+                })
+            }
         }
     },
 
@@ -85,5 +97,4 @@ App.Router.CurrentRouter = Backbone.Router.extend({
         }
     }
 
-})
-    ;
+});
