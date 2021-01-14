@@ -20,5 +20,12 @@ App.Views.WishlistView = Backbone.View.extend({
             wishlistItemView.render();
             counter++;
         });
+    },
+    share_list: function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(e);
+        alert('The link to view the wishlist is "http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/#wishlist/' + this.id + '"')
+
     }
 });

@@ -198,54 +198,65 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
                 <% if(canEdit) { %>
                 <div class="col-6 col-md-1 p-0">
+                    <a href="http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/#edit/#<%=model.wli_id%>">
                     <button class="btn btn-secondary">
                         <i class="small material-icons">edit</i>
-                    </button>
+                    </button></a>
                 </div>
                 <div class="col-6 col-md-1 p-0">
-                    <button class="btn btn-danger">
+                    <form>
+                    <button type=submit class="btn btn-danger btn-delete" id="btn_delete_<%=model.wli_id%>" data-val="<%=model.wli_id%>">
                         <i class="small material-icons">delete</i>
                     </button>
+                </form>
                 </div>
                 <%}%>
     </script>
     <script type="text/template" id="add-wishlist-item-template">
         <form>
-            <input type="hidden" name="wli_user_id" value=<%=wli_user_id%>>
+        <input type="hidden" name="wli_user_id" value="<%userId%>">
+             <div class="form-group">
             <label for="wli_title"><b>Title</b></label>
-            <input type="text" placeholder="Perfume" name="wli_title" id="add_wli_title">
+            <input type="text"  class="form-control" placeholder="Perfume" name="wli_title" id="add_wli_title"></div>
+                <div class="form-group">
             <label for="wli_url"><b>URL</b></label>
-            <input type="text" placeholder="https://www.tesco.com/groceries/en-GB/products/301869750" name="wli_url" id="add_wli_url">
+            <input type="text" class="form-control" placeholder="https://www.tesco.com/groceries/en-GB/products/301869750" name="wli_url" id="add_wli_url"></div>
+                <div class="form-group">
             <label for="wli_price"><b>Price</b></label>
-            <input type="number" step="0.01" placeholder="40.00" name="wli_price" id="add_wli_price">  
+            <input type="number" class="form-control"step="0.01" placeholder="40.00" name="wli_price" id="add_wli_price"> </div>
+                <div class="form-group"> 
             <label for="wli_priority"><b>Priority</b></label>
-            <input type="radio" name="wli_priority" value="'A must have">
+            <input type="radio" class="form-control" name="wli_priority" value="'A must have">
             <label for="wli_priority_1">A must have</label><br>
-            <input type="radio" name="wli_priority" value="Nice to have">
+            <input type="radio" class="form-control" name="wli_priority" value="Nice to have">
             <label for="wli_priority_2">Nice to have</label><br>  
-            <input type="radio" name="wli_priority" value="Only if you can">
-            <label for="wli_priority_3">Only if you can</label><br><br>
-            <button type="submit">Add Item</button>
+            <input type="radio" class="form-control" name="wli_priority" value="Only if you can">
+            <label for="wli_priority_3">Only if you can</label><br></div>
+            <button type="submit" id="btn-add-item">Add Item</button>
             <button type="reset">Reset</button>
         </form>
     </script>
     <script type="text/template" id="edit-wishlist-item-template">
         <form>
-            <input type="hidden" name="wli_user_id" value=<%=wli_user_id%>>
+            <input type="hidden" name="wli_user_id" value="<%=wli_user_id%>">
+                <div class="form-group">
             <label for="wli_title"><b>Title</b></label>
-            <input type="text" value=<%=wli_title%> name="wli_title" id="add_wli_title">
+            <input type="text" class="form-control" value="<%=wli_title%>" name="wli_title" id="add_wli_title"></div>
+                <div class="form-group">
             <label for="wli_url"><b>URL</b></label>
-            <input type="text" value=<%=wli_url%> name="wli_url" id="add_wli_url">
+            <input type="text" class="form-control" value="<%=wli_url%>" name="wli_url" id="add_wli_url"></div>
+                <div class="form-group">
             <label for="wli_price"><b>Price</b></label>
-            <input type="number" step="0.01" value=<%=wli_price%> name="wli_price" id="add_wli_price">  
-            <label for="wli_priority"><b>Priority</b></label>
-            <input type="radio" name="wli_priority" value="'A must have">
+            <input type="number" class="form-control" step="0.01" value="<%=wli_price%>" name="wli_price" id="add_wli_price">  </div>
+                <div class="form-group">
+            <label for="wli_priority"><b>Priority</b></label>           
+            <input type="radio" class="form-control" name="wli_priority" value="A must have" selected= "<% if(wli_priority =='A must have') %>">
             <label for="wli_priority_1">A must have</label><br>
-            <input type="radio" name="wli_priority" value="Nice to have">
+            <input type="radio" class="form-control" name="wli_priority" value="Nice to have" selected= "<% if(wli_priority =='Nice to have') %>">
             <label for="wli_priority_2">Nice to have</label><br>  
-            <input type="radio" name="wli_priority" value="Only if you can">
-            <label for="wli_priority_3">Only if you can</label><br><br>
-            <button type="submit">Save Changes</button>
+            <input type="radio" class="form-control" name="wli_priority" value="Only if you can" selected= "<% if(wli_priority =='Only if you can') %>">
+            <label for="wli_priority_3">Only if you can</label><br></div>
+            <button type="submit" id="btn-edit-item">Save Changes</button>
             <button type="reset">Reset</button>
         </form>
     </script>

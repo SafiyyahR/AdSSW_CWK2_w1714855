@@ -1,7 +1,8 @@
 
 App.Models.WishListItem = Backbone.Model.extend({
     initialize: function (options) { },
-    urlRoot:  'http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/api/wishlist/item/',
+    urlRoot:  'http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/api/wishlist/item',
+    idAttribute:'wli_id',
     defaults:{
         wli_title:"",
         wli_priority:'',

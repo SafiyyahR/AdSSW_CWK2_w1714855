@@ -3,7 +3,7 @@ App.Router.CurrentRouter = Backbone.Router.extend({
         "wishlist/:id": "viewList",
         "login": "login",
         "register": "register",
-        "edit/:userId/:itemId": "edit",
+        "edit/:itemId": "edit",
         "add/:userId": "add",
         '*path': 'login'
     },
@@ -44,7 +44,7 @@ App.Router.CurrentRouter = Backbone.Router.extend({
             if (current_user_id == id.split('#')[1]) {
                 App.wishlist = new App.Collections.WishListItemCollection();
                 App.wishlistView = new App.Views.WishlistView({ wishlist: App.wishlist, el: "#main-container", canEdit: "true", id: id.split('#')[1] });
-                var url = App.wishlistView.wishlist.url + current_user_id;
+                var url = 'http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/api/wishlist/items/' + current_user_id;
                 App.wishlist.fetch({
                     'url': url,
                     wait: true,
@@ -73,7 +73,30 @@ App.Router.CurrentRouter = Backbone.Router.extend({
         }
     },
 
-    editList: function (userId, itemId) {
+    edit: function (userId, itemId) {
+        if (!app.shareView) {
+            app.shareUser = new app.models.User();
+            app.shareUser.fetch({ "url": app.shareUser.url + id });
+            app.shareView = new app.views.ShareView({ collection: new app.collections.ItemCollection() });
+            var url = app.shareView.collection.url + id;
+            app.shareView.collection.fetch({
+                "url": url,
+                wait: true,
+                success: function (collection, response) {
+                    app.shareView.render();
+                },
+                error: function (model, xhr) {
+                    if (xhr.status == 404) {
+                        $("#item_status").css('display', 'block');
+                    }
+                }
+            });
+
+        } else {
+            this.viewList();
+        }
+    },
+    add: function (userId, itemId) {
         if (!app.shareView) {
             app.shareUser = new app.models.User();
             app.shareUser.fetch({ "url": app.shareUser.url + id });
