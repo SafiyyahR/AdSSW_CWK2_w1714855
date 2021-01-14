@@ -67,8 +67,7 @@ class Wishlist_items_model extends CI_Model
 
     function update_item($data)
     {
-        return $data;
-        // $this->db->where('wli_id', $data['wli_id']);
-        // return $this->db->update('wishlist_items', $data);
+        $this->db->where('wli_id', $data['wli_id']);
+        return $this->db->update('wishlist_items', $data);
     }
 }

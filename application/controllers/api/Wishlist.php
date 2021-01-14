@@ -29,15 +29,25 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
 
     function items_post()
     {
-        $data['wli_user_id'] = $this->input->post('wli_user_id');
+        if (count($this->input->post()) > 0) {
+            $data['wli_user_id'] = $this->input->post('wli_user_id');
 
-        $data['wli_title'] = $this->input->post('wli_title');
+            $data['wli_title'] = $this->input->post('wli_title');
 
-        $data['wli_url'] = $this->input->post('wli_url');
+            $data['wli_url'] = $this->input->post('wli_url');
 
-        $data['wli_price'] = $this->input->post('wli_price');
+            $data['wli_price'] = $this->input->post('wli_price');
 
-        $data['wli_priority'] = $this->input->post('wli_priority');
+            $data['wli_priority'] = $this->input->post('wli_priority');
+        } else {
+            $in = file_get_contents('php://input');
+            $decoded = json_decode($in, true);
+            $data['wli_user_id'] = $decoded['wli_user_id'];
+            $data['wli_title'] = $decoded['wli_title'];
+            $data['wli_url'] = $decoded['wli_url'];
+            $data['wli_price'] = $decoded['wli_price'];
+            $data['wli_priority'] = $decoded['wli_priority'];
+        }
         $this->wishlist_items_model->insert_item($data);
         $this->set_response('ok', \Restserver\Libraries\REST_Controller::HTTP_OK);
     }
@@ -83,16 +93,23 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
 
     function item_post()
     {
-        $data['wli_id'] = $this->input->post('wli_id');
-        $data['wli_user_id'] = $this->input->post('wli_user_id');
-
-        $data['wli_title'] = $this->input->post('wli_title');
-
-        $data['wli_url'] = $this->input->post('wli_url');
-
-        $data['wli_price'] = $this->input->post('wli_price');
-
-        $data['wli_priority'] = $this->input->post('wli_priority');
+        if (count($this->input->post()) > 0) {
+            $data['wli_id'] = $this->input->post('wli_id');
+            $data['wli_user_id'] = $this->input->post('wli_user_id');
+            $data['wli_title'] = $this->input->post('wli_title');
+            $data['wli_url'] = $this->input->post('wli_url');
+            $data['wli_price'] = $this->input->post('wli_price');
+            $data['wli_priority'] = $this->input->post('wli_priority');
+        } else {
+            $in = file_get_contents('php://input');
+            $decoded = json_decode($in, true);
+            $data['wli_id'] = $decoded['wli_id'];
+            $data['wli_user_id'] = $decoded['wli_user_id'];
+            $data['wli_title'] = $decoded['wli_title'];
+            $data['wli_url'] = $decoded['wli_url'];
+            $data['wli_price'] = $decoded['wli_price'];
+            $data['wli_priority'] = $decoded['wli_priority'];
+        }
 
         $this->wishlist_items_model->update_item($data);
 

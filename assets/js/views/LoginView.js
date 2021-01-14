@@ -44,7 +44,7 @@ App.Views.LoginView = Backbone.View.extend({
                     localStorage.setItem('current_wishlist_name', model.get('wishlist_name'));
                     localStorage.setItem('current_wishlist_description', model.get('wishlist_description'));
                     localStorage.setItem('current_wishlist_occasion', model.get('wishlist_occasion'));
-                    App.Router.navigate("#wishlist/"+model.get('user_id'), {trigger: true, replace: true});
+                    App.Router.navigate("/#wishlist/"+model.get('user_id'), {trigger: true, replace: true});
                 },
                 error: function (model, error) {
                     alert('Incorrect Username or Password.');

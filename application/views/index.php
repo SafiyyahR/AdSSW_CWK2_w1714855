@@ -25,6 +25,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src=<?php echo base_url() . "assets/js/views/RegisterView.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/views/WishlistView.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/views/WishlistItemView.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/views/AddWishlistItemView.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/views/EditWishlistItemView.js" ?>></script>
     <link href="<?php echo base_url(); ?>assets/css/styles.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -32,8 +34,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <body>
     <nav id="custom-navbar" class="navbar navbar-expand-lg navbar-light bg-custom sticky-top">
     </nav>
-    <div class="container mt-5" id="main-container"></div>
-
+    <div class="container my-5" id="main-container"></div>
+    <div class="footer-content text-center bg-secondary">
+        <div class="p-2 font-weight-bold">© 2021 Copyright:&nbsp;
+            <a class="footer-link" target="_blank" without="true" rel="noopener noreferrer" href="https://www.linkedin.com/in/safiyyah-r-408652132/">Safiyyah Thur Rahman</a>
+        </div>
+    </div>
     <script type="text/template" id="navbar-template">
         <h4>WishList</h4>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,20 +71,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
           </li>
           <%} } else if(name ==="View" & loggedIn){ %>
           <li class="nav-item active">
-            <a class="nav-link" href="<?php echo base_url() . "wishlist/" ?><%=userId%>">View WishList</a>
+            <a class="nav-link" href="<?php echo base_url() . "#wishlist/#" ?><%=userId%>">View WishList</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="<?php echo base_url() . 'add/' ?><%=userId%>">Add Item</a>
+            <a class="nav-link" href="<?php echo base_url() . '#add/' ?>">Add Item</a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
           </li>
           <% } else if( name=== 'Add'  & loggedIn) { %>
             <li class="nav-item">
-            <a class="nav-link" href="<?php echo base_url() . "wishlist/" ?><%=userId%>">View WishList</a>
+            <a class="nav-link" href="<?php echo base_url() . "#wishlist/#" ?><%=userId%>">View WishList</a>
           </li>
           <li class="nav-item active">
-            <a class="nav-link" href="<?php echo base_url() . 'add/' ?><%=userId%>">Add Item</a>
+            <a class="nav-link" href="<?php echo base_url() . '#add' ?>">Add Item</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
+          </li>
+          <% }else {%>
+            <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url() . "#wishlist/#" ?><%=userId%>">View WishList</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url() . '#add' ?>">Add Item</a>
           </li>
           <li class="nav-item ">
             <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
@@ -177,13 +193,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <% for (let index = 1; index <= length; index++) {%>
                 <div class="row border-bottom border-primary w-100 py-3" id="wishlist-item-<%=index%>"></div>
         <%}%>
-        <div class="row w-100 my-3 mx-auto align-items-center">
-        <div class="col-12 p-0  mx-auto align-items-center">
-                    <a href="http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/#wishlist/#<%=userId%>">
-                    <button class="btn btn-info px-3 mx-auto align-items-center">
-                        <i class="small material-icons">share</i>
-                    </button></a>
-                </div>
+        <div class="row w-100 my-3 mx-auto text-center ">
+                    <button id="btn-share" class="btn btn-info px-3 mx-auto align-items-center w-50">
+                        <span><i class="small material-icons">share</i> Share the Wishlist</span>
+                    </button>
             </div>
             
 
@@ -204,7 +217,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="col-6 col-md-3 p-0">
                     <h5><%=model.wli_priority%></h5>
                 </div>
-                <% if(canEdit) { %>
+                <% if(canEdit=="true") { %>
                 <div class="col-6 col-md-1 p-0">
                     <a href="http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/#edit/#<%=model.wli_id%>">
                     <button class="btn btn-secondary">
@@ -221,8 +234,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <%}%>
     </script>
     <script type="text/template" id="add-wishlist-item-template">
+        <div class="row w-100">
+            <h1 class="text-center w-100">Add a new Item</h1>
+        </div>
         <form>
-        <input type="hidden" name="wli_user_id" value="<%userId%>">
+        <input type="hidden" name="wli_user_id" id="add_wli_user_id" value="<%=userId%>">
              <div class="form-group">
             <label for="wli_title"><b>Title</b></label>
             <input type="text"  class="form-control" placeholder="Perfume" name="wli_title" id="add_wli_title"></div>
@@ -234,38 +250,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <input type="number" class="form-control"step="0.01" placeholder="40.00" name="wli_price" id="add_wli_price"> </div>
                 <div class="form-group"> 
             <label for="wli_priority"><b>Priority</b></label>
-            <input type="radio" class="form-control" name="wli_priority" value="'A must have">
+            <input type="radio" class="form-control" name="wli_priority" id="add_wli_priority_1" value="A must have" checked>
             <label for="wli_priority_1">A must have</label><br>
-            <input type="radio" class="form-control" name="wli_priority" value="Nice to have">
+            <input type="radio" class="form-control" name="wli_priority" id="add_wli_priority_2" value="Nice to have">
             <label for="wli_priority_2">Nice to have</label><br>  
-            <input type="radio" class="form-control" name="wli_priority" value="Only if you can">
+            <input type="radio" class="form-control" name="wli_priority"id="add_wli_priority_3"  value="Only if you can">
             <label for="wli_priority_3">Only if you can</label><br></div>
-            <button type="submit" id="btn-add-item">Add Item</button>
-            <button type="reset">Reset</button>
+            <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btn-add-item">Add Item</button>
+            <button type="reset" class="btn btn-secondary">Reset</button></div>
         </form>
     </script>
     <script type="text/template" id="edit-wishlist-item-template">
         <form>
-            <input type="hidden" name="wli_user_id" value="<%=wli_user_id%>">
+            <input type="hidden" name="wli_user_id" id="edit_wli_user_id" value="<%=wli_user_id%>">
                 <div class="form-group">
             <label for="wli_title"><b>Title</b></label>
-            <input type="text" class="form-control" value="<%=wli_title%>" name="wli_title" id="add_wli_title"></div>
+            <input type="text" class="form-control" value="<%=wli_title%>" name="wli_title" id="edit_wli_title"></div>
                 <div class="form-group">
             <label for="wli_url"><b>URL</b></label>
-            <input type="text" class="form-control" value="<%=wli_url%>" name="wli_url" id="add_wli_url"></div>
+            <input type="text" class="form-control" value="<%=wli_url%>" name="wli_url" id="edit_wli_url"></div>
                 <div class="form-group">
             <label for="wli_price"><b>Price</b></label>
-            <input type="number" class="form-control" step="0.01" value="<%=wli_price%>" name="wli_price" id="add_wli_price">  </div>
+            <input type="number" class="form-control" step="0.01" value="<%=wli_price%>" name="wli_price" id="edit_wli_price">  </div>
                 <div class="form-group">
-            <label for="wli_priority"><b>Priority</b></label>           
-            <input type="radio" class="form-control" name="wli_priority" value="A must have" selected= "<% if(wli_priority =='A must have') %>">
+            <label for="wli_priority"><b>Priority</b></label>          
+            <% if(wli_priority =='A must have'){%>
+            <input type="radio" class="form-control" name="wli_priority" value="A must have" checked>
             <label for="wli_priority_1">A must have</label><br>
-            <input type="radio" class="form-control" name="wli_priority" value="Nice to have" selected= "<% if(wli_priority =='Nice to have') %>">
+            <input type="radio" class="form-control" name="wli_priority" value="Nice to have">
             <label for="wli_priority_2">Nice to have</label><br>  
-            <input type="radio" class="form-control" name="wli_priority" value="Only if you can" selected= "<% if(wli_priority =='Only if you can') %>">
-            <label for="wli_priority_3">Only if you can</label><br></div>
-            <button type="submit" id="btn-edit-item">Save Changes</button>
-            <button type="reset">Reset</button>
+            <input type="radio" class="form-control" name="wli_priority" value="Only if you can" >
+            <label for="wli_priority_3">Only if you can</label><br>
+            <% }else if(wli_priority =='Nice to have') {%>                
+            <input type="radio" class="form-control" name="wli_priority" value="A must have">
+            <label for="wli_priority_1">A must have</label><br>
+            <input type="radio" class="form-control" name="wli_priority" value="Nice to have" checked>
+            <label for="wli_priority_2">Nice to have</label><br>  
+            <input type="radio" class="form-control" name="wli_priority" value="Only if you can">
+            <label for="wli_priority_3">Only if you can</label><br>
+            <%}else if(wli_priority =='Only if you can'){%>
+                <input type="radio" class="form-control" name="wli_priority" value="A must have">
+            <label for="wli_priority_1">A must have</label><br>
+            <input type="radio" class="form-control" name="wli_priority" value="Nice to have" >
+            <label for="wli_priority_2">Nice to have</label><br>  
+            <input type="radio" class="form-control" name="wli_priority" value="Only if you can" checked>
+            <label for="wli_priority_3">Only if you can</label><br>
+            <%}%>
+        </div>
+            <div class="text-center">
+            <button type="submit" class="btn btn-success" id="btn-edit-item">Save Changes</button>
+            <button type="reset" class="btn btn-secondary">Reset</button>
+        </div>
         </form>
     </script>
 
