@@ -16,7 +16,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src=<?php echo base_url() . "assets/js/App.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/app.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/Router.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/models/User.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/models/WishListItem.js" ?>></script>
@@ -179,17 +179,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </div>
                 </div>
             <% } else { %>
-                <div class="row mt-5 pt-5">
+                <div class="row mt-5 pt-5 text-center">
                     <div class="col-12">
                         <h3 class="text-center">The wishList is empty</h3>
-                        <div class="row mt-5 pt-5">
-                            <a href="#">
-                            <button class="btn text-center m-auto btn-success">
-                                Add a new Item
-                            </button></a>
-                        </div>
                     </div>
                 </div>
+                <div class="row w-100 my-3 mx-auto text-center ">
+                            <a href="<?php echo base_url() . '#add' ?>">
+                            <button class="btn text-center m-auto btn-success">
+                                Add a new Item
+                            </button>
+                        </a>
+                        </div>
             <% } %>
             <% for (let index = 1; index <= length; index++) {%>
                 <div class="row border-bottom border-primary w-100 py-3" id="wishlist-item-<%=index%>"></div>

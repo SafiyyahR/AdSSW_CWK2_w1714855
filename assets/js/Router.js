@@ -19,7 +19,7 @@ App.Router.CurrentRouter = Backbone.Router.extend({
                 App.loginView.render();
             }
         } else {
-            alert('Logged in previously');
+            alert('Successfully Logged In.');
             App.Router.navigate("/#wishlist/#" + current_user_id, { trigger: true, replace: true });
         }
     },

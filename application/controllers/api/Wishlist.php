@@ -84,10 +84,10 @@ class Wishlist extends \Restserver\Libraries\REST_Controller
             if ($result) {
                 $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
             } else {
-                $this->set_response($user_id, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+                $this->set_response($result, \Restserver\Libraries\REST_Controller::HTTP_OK);
             }
         } else {
-            $this->set_response($user_id, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
