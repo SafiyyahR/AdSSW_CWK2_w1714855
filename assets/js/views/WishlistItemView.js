@@ -16,7 +16,13 @@ App.Views.WishlistItemView = Backbone.View.extend({
         e.preventDefault();
         e.stopPropagation();
         console.log(e.currentTarget.id.split('btn_delete_')[1]);
-        
+        this.model.destroy(this.model.attributes, {
+            wait: true,
+            url: this.model.urlRoot + '/' + e.currentTarget.id.split('btn_delete_')[1],
+            type: "DELETE",
+        });
+        window.location.reload();
+
     },
 
 });

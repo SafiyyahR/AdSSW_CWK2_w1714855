@@ -5,7 +5,9 @@ App.Router.CurrentRouter = Backbone.Router.extend({
         "register": "register",
         "edit/:itemId": "edit",
         "add": "add",
-        '*path': 'login'
+        'logout': 'logout',
+        '*path': 'login',
+
     },
 
     login: function () {
@@ -17,7 +19,7 @@ App.Router.CurrentRouter = Backbone.Router.extend({
                 App.loginView.render();
             }
         } else {
-            alert('Logged in');
+            alert('Logged in previously');
             App.Router.navigate("/#wishlist/#" + current_user_id, { trigger: true, replace: true });
         }
     },
@@ -123,5 +125,16 @@ App.Router.CurrentRouter = Backbone.Router.extend({
             }
         }
     },
+    logout: function () {
+        var current_user_id = JSON.parse(localStorage.getItem("current_user_id"));
+        console.log(current_user_id);
+        if (current_user_id == null) {
+            alert("Not logged in.");
+            App.Router.navigate("login", { trigger: true, replace: true });
+        } else {
+            localStorage.clear();
+            App.Router.navigate("login", { trigger: true, replace: true });
+        }
+    }
 
 });

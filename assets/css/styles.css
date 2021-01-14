@@ -1,7 +1,8 @@
-.bg-custom{
-    background-color: #82baf5 !important;
+.bg-custom {
+	background-color: #82baf5 !important;
 }
+
 pre {
 	white-space: pre-line;
 	width: 300px;
-	}
+}

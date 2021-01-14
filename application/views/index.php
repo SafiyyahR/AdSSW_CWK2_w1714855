@@ -27,11 +27,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src=<?php echo base_url() . "assets/js/views/WishlistItemView.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/views/AddWishlistItemView.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/views/EditWishlistItemView.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/functions.js" ?>></script>
     <link href="<?php echo base_url(); ?>assets/css/styles.css" rel="stylesheet" type="text/css">
 
 </head>
 
-<body>
+<body onload="increaseHeight()" onresize="increaseHeight()">
     <nav id="custom-navbar" class="navbar navbar-expand-lg navbar-light bg-custom sticky-top">
     </nav>
     <div class="container my-5" id="main-container"></div>
@@ -77,7 +78,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <a class="nav-link" href="<?php echo base_url() . '#add/' ?>">Add Item</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
+            <a class="nav-link" href="<?php echo base_url() . '#logout' ?>">Logout</a>
           </li>
           <% } else if( name=== 'Add'  & loggedIn) { %>
             <li class="nav-item">
@@ -87,7 +88,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <a class="nav-link" href="<?php echo base_url() . '#add' ?>">Add Item</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
+            <a class="nav-link" href="<?php echo base_url() . '#logout' ?>">Logout</a>
           </li>
           <% }else {%>
             <li class="nav-item">
@@ -97,14 +98,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <a class="nav-link" href="<?php echo base_url() . '#add' ?>">Add Item</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
+            <a class="nav-link" href="<?php echo base_url() . '#logout' ?>">Logout</a>
           </li>
          <% }%>
       </ul>
     </div>
     </script>
     <script type="text/template" id="login-template">
-        <div class="row align-items-center h-100">
+        <div class="row h-100">
             <div class="col-12">
             <form>
                 <div class="form-group">
@@ -121,7 +122,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div></div>
     </script>
     <script type="text/template" id="register-template">
-        <div class="row align-items-center h-100">
+        <div class="row h-100">
             <div class="col-12">
             <form>
                 <div class="form-group">

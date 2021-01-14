@@ -25,10 +25,8 @@ function getCurrentUserId() {
 
 }
 $(document).ready(function () {
-  // _.templateSettings = { interpolate: /{{(.+?)}}/g };
   App.Router = new App.Router.CurrentRouter();
   $(function () {
     Backbone.history.start({ root: "http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php" });
   });
-  // Add some code here
 });
