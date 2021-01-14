@@ -6,7 +6,8 @@ app.routers.AppRouter = Backbone.Router.extend({
         "login": "login",
         "register": "register",
         "edit/:userId/:itemId": "edit",
-        "add/:userId": "add"
+        "add/:userId": "add",
+        '*path': 'login'
     },
 
     login: function () {

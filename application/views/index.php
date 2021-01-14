@@ -9,32 +9,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
     <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
-    <script src=<?php echo base_url() . "assets/js/app.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/App.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/models/User.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/models/WishListItem.js" ?>></script>
+
 </head>
 
 <body>
+<div class="container" id="main-container"></div>
     <div id="tank"></div>
     <!-- And here is the template -->
     <script type="text/template" id="tank-template">
         <p>Swim Away {{name}}</p>
     </script>
 
-    <script type="text/template" id="login-template">
-        <div class="container">
+    <script type="text/template" id="login-template">       
             <form>
                 <label for="user_email"><b>Email</b></label>
-                <input type="text" placeholder="hello@goo.com" name="user_email" id="login_user_email">
+                <input type="text" placeholder="hello@goo.com" name="user_email" id="login_user_email" value="{{user_email}}">
 
                 <label for="user_password"><b>Password</b></label>
-                <input type="password"  name="user_password" id="login_user_password">
+                <input type="password"  name="user_password" id="login_user_password" value ="{{user_password}}">
                     
                 <button type="submit">Login</button>
                 <button type="reset">Reset</button>
             </form>
-        </div>
     </script>
     <script type="text/template" id="register-template">
-        <div class="container">
             <form>
                 <label for="user_fname"><b>First Name</b></label>
                 <input type="text" placeholder="John" name="user_fname" id="register_user_fname">
@@ -60,10 +61,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <button type="submit">Register</button>
                 <button type="reset">Reset</button>
             </form>
-        </div>
     </script>
     <script type="text/template" id="view-wishlist-template">
-        <div class="container w-100 text-white" id="custom-content">
             <% if(wishList.length>0) { %>
                 <div class="row w-100">
                     <h1 class="text-center w-100">WishList</h1>
@@ -94,7 +93,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </div>
                 </div>
             <% } %>
-        </div>
     </script>
     <script type="text/template" id="wishlist-item-template">
             <div class="row border-bottom border-primary w-100">
