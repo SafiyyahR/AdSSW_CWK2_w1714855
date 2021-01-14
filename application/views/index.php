@@ -151,13 +151,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="col-6 p-0 col-md-3">
                         <h4 class="text-primary">Title</h4>
                     </div>
-                    <div class="col-6 p-0 col-md-3">
+                    <div class="col-6 p-0 col-md-2">
                         <h4 class="text-primary">URL</h4>
                     </div>
                     <div class="col-6 p-0 col-md-2">
                         <h4 class="text-primary">Price</h4>
                     </div>
-                    <div class="col-6 p-0 col-md-2">
+                    <div class="col-6 p-0 col-md-3">
                         <h4 class="text-primary">Priority</h4>
                     </div>
                 </div>
@@ -177,6 +177,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <% for (let index = 1; index <= length; index++) {%>
                 <div class="row border-bottom border-primary w-100 py-3" id="wishlist-item-<%=index%>"></div>
         <%}%>
+        <div class="row w-100 my-3 mx-auto align-items-center">
+        <div class="col-12 p-0  mx-auto align-items-center">
+                    <a href="http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/#wishlist/#<%=userId%>">
+                    <button class="btn btn-info px-3 mx-auto align-items-center">
+                        <i class="small material-icons">share</i>
+                    </button></a>
+                </div>
+            </div>
             
 
     </script>
@@ -185,7 +193,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         <div class="col-6 col-md-3 p-0">
                         <h5 class="heading"><%=model.wli_title%></h5>
                 </div>
-                <div class="col-6 col-md-3 p-0">
+                <div class="col-6 col-md-2 p-0">
                     <a href="<%=model.wli_url%>" target="_blank">
                         <h5>URL</h5>
                     </a>
@@ -193,7 +201,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="col-6 col-md-2 p-0">
                     <h5>&#163;<%=model.wli_price%></h5>
                 </div>
-                <div class="col-6 col-md-2 p-0">
+                <div class="col-6 col-md-3 p-0">
                     <h5><%=model.wli_priority%></h5>
                 </div>
                 <% if(canEdit) { %>

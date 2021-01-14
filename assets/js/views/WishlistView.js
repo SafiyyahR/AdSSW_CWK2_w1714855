@@ -2,6 +2,9 @@ App.Views.WishlistView = Backbone.View.extend({
 
     initialize: function (options) { },
 
+    events: {
+        "click .btn-share": 'share_list'
+    },
     render: function () {
         var body_template = _.template($('#view-wishlist-template').html());
         var navbar_template = _.template($('#navbar-template').html());
@@ -11,7 +14,7 @@ App.Views.WishlistView = Backbone.View.extend({
         console.log(this.options.canEdit);
         console.log(this.id);
         var hasItems = this.options.wishlist.models.length > 0;
-        this.$el.html(body_template({ hasItems: hasItems, length: this.options.wishlist.models.length }));
+        this.$el.html(body_template({ hasItems: hasItems, length: this.options.wishlist.models.length, userId:this.id }));
         var counter = 1;
         this.options.wishlist.models.forEach(element => {
             var wishlistItemView = new App.Views.WishlistItemView({ el: '#wishlist-item-' + counter, model: element, canEdit: this.options.canEdit, userId: this.id });
