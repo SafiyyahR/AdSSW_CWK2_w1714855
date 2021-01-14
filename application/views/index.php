@@ -5,7 +5,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <html>
 
 <head>
-    <title>Sharks</title>
+    <title>Wishlist w1714855</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
     <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
@@ -220,7 +220,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 </div>
                 <% if(canEdit=="true") { %>
                 <div class="col-6 col-md-1 p-0">
-                    <a href="http://localhost/AdvancedServerSideWeb/AdSSW_CWK2_w1714855/index.php/#edit/#<%=model.wli_id%>">
+                    <a href="https://w1714855.users.ecs.westminster.ac.uk/AdSSW_CWK2_w1714855/index.php/#edit/#<%=model.wli_id%>">
                     <button class="btn btn-secondary">
                         <i class="small material-icons">edit</i>
                     </button></a>
