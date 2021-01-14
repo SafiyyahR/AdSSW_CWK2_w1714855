@@ -9,34 +9,94 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="http://ajax.cdnjs.com/ajax/libs/underscore.js/1.3.3/underscore-min.js"></script>
     <script src="http://ajax.cdnjs.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src=<?php echo base_url() . "assets/js/App.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/Router.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/models/User.js" ?>></script>
     <script src=<?php echo base_url() . "assets/js/models/WishListItem.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/collections/WishListCollection.js" ?>></script>
+    <script src=<?php echo base_url() . "assets/js/views/LoginView.js" ?>></script>
+
 
 </head>
 
 <body>
-<div class="container" id="main-container"></div>
-    <div id="tank"></div>
-    <!-- And here is the template -->
-    <script type="text/template" id="tank-template">
-        <p>Swim Away {{name}}</p>
+    <nav id="custom-navbar" class="navbar navbar-expand-lg navbar-light bg-custom sticky-top">
+    </nav>
+    <div class="container" id="main-container"></div>
+
+    <script type="text/template" id="navbar-template"><a class="navbar-brand" href="<?php echo base_url() ?> ">
+      <h4>WishList</h4>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav ml-auto h4">
+      <% if(!loggedIn) {
+          if(name==="Login") {%>
+        <li class="nav-item active">
+            <a class="nav-link" href="<?php echo base_url() ?>">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url() . 'register' ?>">Register</a>
+          </li>
+<% } else if( name=== 'Register') { %>
+    <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url() ?>">Login</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="<?php echo base_url() . 'register' ?>">Register</a>
+          </li>
+          <% } } else{ if(name ==="View"){ %>
+          <li class="nav-item active">
+            <a class="nav-link" href="<?php echo base_url() . "wishlist/" ?><%=userId%>">View WishList</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="<?php echo base_url() . 'add/' ?><%=userId%>">Add Item</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
+          </li>
+          <% } else if( name=== 'Add') { %>
+            <li class="nav-item">
+            <a class="nav-link" href="<?php echo base_url() . "wishlist/" ?><%=userId%>">View WishList</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="<?php echo base_url() . 'add/' ?><%=userId%>">Add Item</a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="<?php echo base_url() . 'logout' ?>">Logout</a>
+          </li>
+         <% }}%>
+      </ul>
+    </div>
     </script>
-
-    <script type="text/template" id="login-template">       
+    <script type="text/template" id="login-template">
+        <div class="row align-items-center h-100">
+            <div class="col-12">
             <form>
+                <div class="form-group">
                 <label for="user_email"><b>Email</b></label>
-                <input type="text" placeholder="hello@goo.com" name="user_email" id="login_user_email" value="{{user_email}}">
-
+                <input class="form-control" type="text" placeholder="hello@goo.com" name="user_email" id="login_user_email" value="<%=user_email%>">
+                </div>
+                <div class="form-group">
                 <label for="user_password"><b>Password</b></label>
-                <input type="password"  name="user_password" id="login_user_password" value ="{{user_password}}">
-                    
-                <button type="submit">Login</button>
-                <button type="reset">Reset</button>
+                <input type="password"  class="form-control" name="user_password" id="login_user_password" value ="<%=user_password%>">
+</div>
+                <button type="submit" class="btn btn-success" id="btn-login">Login</button>
+                <button type="reset" class="btn btn-secondary" >Reset</button>
             </form>
+            </div></div>
     </script>
     <script type="text/template" id="register-template">
-            <form>
+        <form>
                 <label for="user_fname"><b>First Name</b></label>
                 <input type="text" placeholder="John" name="user_fname" id="register_user_fname">
 
@@ -63,7 +123,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </form>
     </script>
     <script type="text/template" id="view-wishlist-template">
-            <% if(wishList.length>0) { %>
+        <% if(wishList.length>0) { %>
                 <div class="row w-100">
                     <h1 class="text-center w-100">WishList</h1>
                 </div>
@@ -95,7 +155,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <% } %>
     </script>
     <script type="text/template" id="wishlist-item-template">
-            <div class="row border-bottom border-primary w-100">
+        <div class="row border-bottom border-primary w-100">
                 <div class="col-6 col-md-3 p-0">
                     <div class="row">
                         <h5 class="heading">{{wli_title}}</h5>

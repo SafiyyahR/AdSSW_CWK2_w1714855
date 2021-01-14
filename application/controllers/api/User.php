@@ -46,7 +46,7 @@ class User extends \Restserver\Libraries\REST_Controller
             $item['data'] = $valid_login;
             $this->set_response($valid_login, \Restserver\Libraries\REST_Controller::HTTP_OK);
         } else {
-            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_OK);
+            $this->set_response(null, \Restserver\Libraries\REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

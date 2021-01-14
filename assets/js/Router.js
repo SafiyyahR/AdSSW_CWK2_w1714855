@@ -1,6 +1,4 @@
-var app = app || {};
-
-app.routers.AppRouter = Backbone.Router.extend({
+App.Router.CurrentRouter = Backbone.Router.extend({
     routes: {
         "wishlist/:id": "viewList",
         "login": "login",
@@ -11,16 +9,15 @@ app.routers.AppRouter = Backbone.Router.extend({
     },
 
     login: function () {
-        userJson = JSON.parse(localStorage.getItem("user"));
-        if (userJson == null) {
-            app.user = new app.models.User(userJson);
-
-            if (!app.loginView) {
-                app.loginView = new app.views.LoginFormView({ model: app.user });
-                app.loginView.render();
+        current_user = JSON.parse(localStorage.getItem("current_user"));
+        if (current_user == null) {
+            App.user = new App.Models.User(current_user);
+            if (!App.loginView) {
+                App.loginView = new App.Views.LoginView({ model: App.user, el: "#main-container" });
+                App.loginView.render();
             }
         } else {
-            this.viewList();
+            this.viewList(getCurrentUserId());
         }
     },
 
